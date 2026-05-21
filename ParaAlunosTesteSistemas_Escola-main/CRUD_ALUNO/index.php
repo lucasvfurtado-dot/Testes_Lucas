@@ -12,7 +12,7 @@
         </p>
         </form>
         <h4>
-            <center>Formulario de Cadastro do Aluno</center>
+            <center>Formulaario de Cadastro do Aluno</center>
         </h4>
         <hr width="100%" align="center" size="3" color="blue"> <br>
 
