@@ -4,60 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Procurar Aluno</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body style="font-family: helvetica;">
-    <form>
-        <p align="center">
-            <font size="7" face="Arial">U.C Testes de Sistemas - SENAI SC</font>
-        </p>
-    </form>
-    <h4>
-        <font color="red">
-            <center>Formulário de Procura de aluno</center>
-        </font>   
-    </h4>
+<body class="bg-light">
 
-    <hr width="100%" align="center" size="3" color="blue">
-<h1 align="center">Procurar Aluno</h1>
+    <div class="container py-5">
+        
+        <header class="text-center mb-4">
+            <h1 class="display-5 fw-bold text-dark">U.C Testes de Sistemas - SENAI SC</h1>
+            <h2 class="h4 text-danger mt-3">Formulário de Procura de Aluno</h2>
+        </header>
 
-<form method="POST" action="consulta.php" align="center">
-    Nome do Aluno(a):
-    <input type="text" size="30" name="Nome"><br><br>
-    <input type="submit" value="Procurar">
-    <input type="reset" value="Limpar Dados">
-</form>
+        <hr class="border-primary border-2 opacity-50 mb-4">
 
-<hr width="100%" align="center" size="3" color="blue">
-        <table width="400" border="0" cellspacing="0" cellspading="0" align="center">
-            <tr>
-            <td>
-                    <form method="POST" action="formAluno.php">
-                        <center><input type="submit" value="Registrar Novo Aluno"></center>
-                    </form>
-                </td>
-                <td>
-                    <form method="POST" action="listar.php">
-                        <center><input type="submit" value="Listar Alunos"></center>
-                    </form>
-                </td>
-                <td>
-                    <form method="POST" action="atualizar.php">
-                        <center><input type="submit" value="Atualizar Dados do  Aluno"></center>
-                    </form>
-                </td>
-                <td>
-                    <form method="POST" action="apagar.php">
-                        <center><input type="submit" value="Excluir Dados do  Aluno"></center>
-                    </form>
-                </td>
-            </tr>
-        </table><br>
-        <nav align="center">
-            <a href="index.php">| Home |</a>
-            <a href="formMatricula.php"> Matricula |</a>
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-6 col-md-8">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4 p-md-5">
+                        
+                        <h3 class="text-center mb-4">Procurar Aluno</h3>
+                        
+                        <form method="POST" action="consulta.php">
+                            <div class="mb-4">
+                                <label for="nomeBusca" class="form-label fw-semibold">Nome do Aluno(a):</label>
+                                <input type="text" class="form-control form-control-lg" id="nomeBusca" name="Nome" placeholder="Digite o nome do aluno...">
+                            </div>
+                            
+                            <div class="d-flex justify-content-center gap-3">
+                                <button type="reset" class="btn btn-outline-secondary px-4">Limpar Dados</button>
+                                <button type="submit" class="btn btn-success px-4">Procurar</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="border-primary border-2 opacity-50 my-5">
+
+        <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
+            <form method="POST" action="listar.php">
+                <button type="submit" class="btn btn-primary">Listar Alunos</button>
+            </form>
+            <form method="POST" action="procurar.php">
+                <button type="submit" class="btn btn-info text-white">Consultar Aluno</button>
+            </form>
+            <form method="POST" action="atualizar.php">
+                <button type="submit" class="btn btn-warning text-dark">Atualizar Dados do Aluno</button>
+            </form>
+            <form method="POST" action="apagar.php">
+                <button type="submit" class="btn btn-danger">Excluir Dados do Aluno</button>
+            </form>
+        </div>
+
+        <nav class="text-center mb-3">
+            <a href="index.php" class="text-decoration-none mx-2 fw-semibold">| Home |</a>
+            <a href="../CRUD_MATRICULA/formMatricula.php" class="text-decoration-none mx-2 fw-semibold">| Matricula |</a>
         </nav>
 
-    <hr>
-    <p align="center">Prof. Sergio Luiz da Silveira</p> 
+        <hr>
+
+        <p class="text-center text-muted fw-semibold">Prof. Sergio Luiz da Silveira</p> 
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
