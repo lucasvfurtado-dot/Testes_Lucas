@@ -30,14 +30,12 @@
                     $conexao->set_charset("utf8");
 
                     $sql = "SELECT * FROM `aluno`;";
-                    
-                    // Exibe a Query executada em uma caixa de alerta cinza do Bootstrap
+
                     echo '<div class="alert alert-secondary text-center font-monospace shadow-sm" role="alert"><strong>Query:</strong> ' . $sql . '</div>';
                     
                     $result = $conexao->query($sql);
 
                     if($result->num_rows > 0){
-                        // Criação da Tabela Responsiva do Bootstrap
                         echo '<div class="table-responsive shadow-sm rounded border border-light bg-white">';
                         echo '<table class="table table-striped table-hover align-middle mb-0">';
                         echo '<thead class="table-dark text-center">';
@@ -54,8 +52,7 @@
                               </tr>';
                         echo '</thead>';
                         echo '<tbody class="text-center">';
-                        
-                        // Laço de repetição para preencher as linhas da tabela com os dados do banco
+
                         while($linha = $result->fetch_assoc()){
                             echo '<tr>';
                             echo '<td class="fw-bold">' . $linha["id"] . '</td>';
