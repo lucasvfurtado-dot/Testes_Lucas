@@ -3,80 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listar</title>
-</head>
-<body style="font-family: helvetica;">
-
-    <p align="center">
-        <font size="7" face="Arial">U.C Teste de Sistemas - U.C Testes de Sistemas - SENAI SC</font>
-    </p>
-    <h4>
-        <font color="green">
-            <center>Listagem de Matriculas</center>
-        </font>   
-    </h4>
-
-    <hr width="100%" align="center" size="3" color="blue">
+    <title>Listar Matrículas</title>
     
-<?php
-    $conexao = new mysqli("127.0.0.1","root","","sistemaescola");
-    if($conexao->connect_errno){
-        $erro = "Ocorreu um erro na conexão com o banco de dados.";
-        exit;
-    }
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
 
-    $conexao->set_charset("utf8");
+    <div class="container py-5">
+        
+        <header class="text-center mb-4">
+            <h1 class="display-5 fw-bold text-dark">U.C Testes de Sistemas - SENAI SC</h1>
+            <h2 class="h4 text-success mt-3">Listagem de Matrículas</h2>
+        </header>
 
-    $sql = "SELECT * FROM `matricula`;";
-    echo $sql."<hr>";
-    $result = $conexao->query($sql);
+        <hr class="border-primary border-2 opacity-50 mb-5">
 
-    if($result->num_rows > 0){
-        while($linha = $result->fetch_assoc()){
-        echo "Id: ".$linha["id"]."<br>";
-        echo "Nivel: ".$linha["nivel"]."<br>";
-        echo "Turno: ".$linha["turno"]."<br>";
-        echo "Série: ".$linha["serie"]."<br>";
-        echo "Curso Extra Curricular: ".$linha["cursoExtra"]."<br><hr>";
-        }
-    } else {
-        echo "Sem resultado <br>";
-    }
+        <div class="row justify-content-center mb-5">
+            <div class="col-12 col-lg-10">
+                
+                <?php
+                $conexao = new mysqli("127.0.0.1","root","","sistemaescola");
+                
+                if($conexao->connect_errno){
+                    echo '<div class="alert alert-danger text-center shadow-sm fw-semibold" role="alert">Ocorreu um erro na conexão com o banco de dados.</div>';
+                } else {
+                    $conexao->set_charset("utf8");
 
-    $conexao->close();
-?>
+                    $sql = "SELECT * FROM `matricula`;";
+                    
+                    // Exibe a Query executada em uma caixa de alerta cinza do Bootstrap
+                    echo '<div class="alert alert-secondary text-center font-monospace shadow-sm" role="alert"><strong>Query:</strong> ' . $sql . '</div>';
+                    
+                    $result = $conexao->query($sql);
 
-<hr width="100%" align="center" size="3" color="blue">
-        <table width="400" border="0" cellspacing="0" cellspading="0" align="center">
-            <tr>
-            <td>
-                    <form method="POST" action="formMatricula.php">
-                        <center><input type="submit" value="Registrar Nova Matricula"></center>
-                    </form>
-                </td>
-                <td>
-                    <form method="POST" action="procurarMatricula.php">
-                        <center><input type="submit" value="Consultar Matricula"></center>
-                    </form>
-                </td>
-                <td>
-                    <form method="POST" action="atualizarMatricula.php">
-                        <center><input type="submit" value="Atualizar Dados de Matricula"></center>
-                    </form>
-                </td>
-                <td>
-                    <form method="POST" action="apagarMatricula.php">
-                        <center><input type="submit" value="Excluir Dados de Matricula"></center>
-                    </form>
-                </td>
-            </tr>
-        </table><br>
-        <nav align="center">
-            <a href="index.php">| Home |</a>
-            <a href="formMatricula.php"> Matricula |</a>
+                    if($result->num_rows > 0){
+                        // Criação da Tabela Responsiva do Bootstrap
+                        echo '<div class="table-responsive shadow-sm rounded border border-light bg-white">';
+                        echo '<table class="table table-striped table-hover align-middle mb-0">';
+                        echo '<thead class="table-dark text-center">';
+                        echo '<tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Nível</th>
+                                <th scope="col">Turno</th>
+                                <th scope="col">Série</th>
+                                <th scope="col">Curso Extra Curricular</th>
+                              </tr>';
+                        echo '</thead>';
+                        echo '<tbody class="text-center">';
+                        
+                        // Laço de repetição para preencher as linhas da tabela
+                        while($linha = $result->fetch_assoc()){
+                            echo '<tr>';
+                            echo '<td class="fw-bold">' . $linha["id"] . '</td>';
+                            echo '<td>' . $linha["nivel"] . '</td>';
+                            echo '<td>' . $linha["turno"] . '</td>';
+                            echo '<td>' . $linha["serie"] . '</td>';
+                            echo '<td>' . $linha["cursoExtra"] . '</td>';
+                            echo '</tr>';
+                        }
+                        
+                        echo '</tbody>';
+                        echo '</table>';
+                        echo '</div>';
+                    } else {
+                        echo '<div class="alert alert-warning text-center shadow-sm fw-semibold" role="alert">Sem resultado. Nenhuma matrícula encontrada no banco de dados.</div>';
+                    }
+
+                    $conexao->close();
+                }
+                ?>
+
+            </div>
+        </div>
+
+        <hr class="border-primary border-2 opacity-50 my-5">
+
+        <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
+            <form method="POST" action="formMatricula.php">
+                <button type="submit" class="btn btn-success">Registrar Nova Matrícula</button>
+            </form>
+            <form method="POST" action="procurarMatricula.php">
+                <button type="submit" class="btn btn-info text-white">Consultar Matrícula</button>
+            </form>
+            <form method="POST" action="atualizarMatricula.php">
+                <button type="submit" class="btn btn-warning text-dark">Atualizar Dados de Matrícula</button>
+            </form>
+            <form method="POST" action="apagarMatricula.php">
+                <button type="submit" class="btn btn-danger">Excluir Dados de Matrícula</button>
+            </form>
+        </div>
+
+        <nav class="text-center mb-3">
+            <a href="../CRUD_ALUNO/index.php" class="text-decoration-none mx-2 fw-semibold">| Home |</a>
+            <a href="formMatricula.php" class="text-decoration-none mx-2 fw-semibold">| Matrícula |</a>
         </nav>
 
-    <hr>
-    <p align="center">Prof. Sergio Luiz da Silveira</p> 
+        <hr>
+
+        <p class="text-center text-muted fw-semibold">Prof. Sergio Luiz da Silveira</p> 
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+```
