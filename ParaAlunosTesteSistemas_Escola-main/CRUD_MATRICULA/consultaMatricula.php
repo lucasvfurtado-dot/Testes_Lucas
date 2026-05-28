@@ -1,86 +1,118 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listar</title>
+    <title>Dados da Matrícula</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body style="font-family: helvetica;">
-        <p align="center">
-            <font size="7" face="Arial">U.C Testes de Sistemas - SENAI SC</font>
-        </p>
-    <h4>
-        <font color="red">
-            <center>Dados da Matricula</center>
-        </font>   
-    </h4>
+<body class="bg-light">
 
-    <hr width="100%" align="center" size="3" color="blue"> 
+    <div class="container py-5">
+        
+        <header class="text-center mb-4">
+            <h1 class="display-5 fw-bold text-dark">U.C Testes de Sistemas - SENAI SC</h1>
+            <h2 class="h4 text-danger mt-3">Dados da Matrícula</h2>
+        </header>
 
-<?php
-    if(empty($_POST["id"])){
-        echo "Por favor preencher o campo do ID";
-    } else {
-        $id = $_POST["id"];
-        $conexao = new mysqli("127.0.0.1","root","","sistemaescola");
-        if($conexao->connect_errno){
-            $erro = "Ocorreu um erro na conexão com o banco de dados.";
-            exit;
-        }
-        $conexao->set_charset("utf8");
+        <hr class="border-primary border-2 opacity-50 mb-5">
 
-        $sql = "SELECT id,nivel,turno,serie,cursoExtra FROM matricula WHERE id LIKE '%$id%'";
-        echo $sql."<hr>";
+        <div class="row justify-content-center mb-5">
+            <div class="col-12 col-lg-10">
+                
+                <?php
+                // Verifica se o campo de ID está vazio
+                if(empty($_POST["id"])){
+                    echo '<div class="alert alert-warning text-center shadow-sm fw-semibold" role="alert">Atenção: Por favor preencher o campo do ID na tela de busca.</div>';
+                } else {
+                    $id = $_POST["id"];
+                    $conexao = new mysqli("127.0.0.1","root","","sistemaescola");
+                    
+                    if($conexao->connect_errno){
+                        echo '<div class="alert alert-danger text-center shadow-sm fw-semibold" role="alert">Ocorreu um erro na conexão com o banco de dados.</div>';
+                        exit;
+                    }
+                    
+                    $conexao->set_charset("utf8");
 
-        $result = $conexao->query($sql);
+                    // Query de busca
+                    $sql = "SELECT id,nivel,turno,serie,cursoExtra FROM matricula WHERE id LIKE '%$id%'";
+                    
+                    // Exibe a Query executada em uma caixa de alerta cinza do Bootstrap
+                    echo '<div class="alert alert-secondary text-center font-monospace shadow-sm" role="alert"><strong>Query:</strong> ' . $sql . '</div>';
 
-        if($result->num_rows > 0){
-            while($linha = $result->fetch_assoc()){
-                echo "Id: ".$linha["id"]."<br>";
-                echo "Nivel: ".$linha["nivel"]."<br>";
-                echo "Turno: ".$linha["turno"]."<br>";
-                echo "Série: ".$linha["serie"]."<br>";
-                echo "Curso Extra Curricular: ".$linha["cursoExtra"]."<br>";
-            }
-        } else {
-            echo "Sem resultado <br>";
-        }
-        $conexao->close();
-    }
-?>  
+                    $result = $conexao->query($sql);
 
+                    if($result->num_rows > 0){
+                        // Se encontrou, cria a tabela para exibir os dados
+                        echo '<div class="table-responsive shadow-sm rounded border border-light bg-white">';
+                        echo '<table class="table table-striped table-hover align-middle mb-0">';
+                        echo '<thead class="table-dark text-center">';
+                        echo '<tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Nível</th>
+                                <th scope="col">Turno</th>
+                                <th scope="col">Série</th>
+                                <th scope="col">Curso Extra Curricular</th>
+                              </tr>';
+                        echo '</thead>';
+                        echo '<tbody class="text-center">';
+                        
+                        // Laço de repetição para exibir os resultados encontrados
+                        while($linha = $result->fetch_assoc()){
+                            echo '<tr>';
+                            echo '<td class="fw-bold">' . $linha["id"] . '</td>';
+                            echo '<td>' . $linha["nivel"] . '</td>';
+                            echo '<td>' . $linha["turno"] . '</td>';
+                            echo '<td>' . $linha["serie"] . '</td>';
+                            echo '<td>' . $linha["cursoExtra"] . '</td>';
+                            echo '</tr>';
+                        }
+                        
+                        echo '</tbody>';
+                        echo '</table>';
+                        echo '</div>';
+                    } else {
+                        // Se não encontrou nenhum registro com aquele ID
+                        echo '<div class="alert alert-warning text-center shadow-sm fw-semibold" role="alert">Sem resultado. Nenhuma matrícula encontrada com esse ID.</div>';
+                    }
+                    
+                    $conexao->close();
+                }
+                ?>
 
-<hr width="100%" align="center" size="3" color="blue">
-        <table width="400" border="0" cellspacing="0" cellspading="0" align="center">
-            <tr>
-            <td>
-                    <form method="POST" action="formMatricula.php">
-                        <center><input type="submit" value="Registrar Nova Matricula"></center>
-                    </form>
-                </td>
-                <td>
-                    <form method="POST" action="listarMatricula.php">
-                        <center><input type="submit" value="Listar Matriculas"></center>
-                    </form>
-                </td>
-                <td>
-                    <form method="POST" action="atualizarMatricula.php">
-                        <center><input type="submit" value="Atualizar Dados de Matricula"></center>
-                    </form>
-                </td>
-                <td>
-                    <form method="POST" action="apagarMatricula.php">
-                        <center><input type="submit" value="Excluir Dados de Matricula"></center>
-                    </form>
-                </td>
-            </tr>
-        </table><br>
-        <nav align="center">
-            <a href="index.php">| Home |</a>
-            <a href="formMatricula.php"> Matricula |</a>
+            </div>
+        </div>
+
+        <hr class="border-primary border-2 opacity-50 my-5">
+
+        <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
+            <form method="POST" action="formMatricula.php">
+                <button type="submit" class="btn btn-success">Registrar Nova Matrícula</button>
+            </form>
+            <form method="POST" action="listarMatricula.php">
+                <button type="submit" class="btn btn-primary">Listar Matrículas</button>
+            </form>
+            <form method="POST" action="atualizarMatricula.php">
+                <button type="submit" class="btn btn-warning text-dark">Atualizar Dados de Matrícula</button>
+            </form>
+            <form method="POST" action="apagarMatricula.php">
+                <button type="submit" class="btn btn-danger">Excluir Dados de Matrícula</button>
+            </form>
+        </div>
+
+        <nav class="text-center mb-3">
+            <a href="../CRUD_ALUNO/index.php" class="text-decoration-none mx-2 fw-semibold">| Home |</a>
+            <a href="formMatricula.php" class="text-decoration-none mx-2 fw-semibold">| Matrícula |</a>
         </nav>
 
-    <hr>
-    <p align="center">Prof. Sergio Luiz da Silveira</p> 
+        <hr>
+
+        <p class="text-center text-muted fw-semibold">Prof. Sergio Luiz da Silveira</p> 
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
