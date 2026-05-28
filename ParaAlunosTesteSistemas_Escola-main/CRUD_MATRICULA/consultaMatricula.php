@@ -22,7 +22,6 @@
             <div class="col-12 col-lg-10">
                 
                 <?php
-                // Verifica se o campo de ID está vazio
                 if(empty($_POST["id"])){
                     echo '<div class="alert alert-warning text-center shadow-sm fw-semibold" role="alert">Atenção: Por favor preencher o campo do ID na tela de busca.</div>';
                 } else {
@@ -36,16 +35,13 @@
                     
                     $conexao->set_charset("utf8");
 
-                    // Query de busca
                     $sql = "SELECT id,nivel,turno,serie,cursoExtra FROM matricula WHERE id LIKE '%$id%'";
-                    
-                    // Exibe a Query executada em uma caixa de alerta cinza do Bootstrap
+
                     echo '<div class="alert alert-secondary text-center font-monospace shadow-sm" role="alert"><strong>Query:</strong> ' . $sql . '</div>';
 
                     $result = $conexao->query($sql);
 
                     if($result->num_rows > 0){
-                        // Se encontrou, cria a tabela para exibir os dados
                         echo '<div class="table-responsive shadow-sm rounded border border-light bg-white">';
                         echo '<table class="table table-striped table-hover align-middle mb-0">';
                         echo '<thead class="table-dark text-center">';
@@ -58,8 +54,7 @@
                               </tr>';
                         echo '</thead>';
                         echo '<tbody class="text-center">';
-                        
-                        // Laço de repetição para exibir os resultados encontrados
+
                         while($linha = $result->fetch_assoc()){
                             echo '<tr>';
                             echo '<td class="fw-bold">' . $linha["id"] . '</td>';
@@ -74,7 +69,6 @@
                         echo '</table>';
                         echo '</div>';
                     } else {
-                        // Se não encontrou nenhum registro com aquele ID
                         echo '<div class="alert alert-warning text-center shadow-sm fw-semibold" role="alert">Sem resultado. Nenhuma matrícula encontrada com esse ID.</div>';
                     }
                     

@@ -22,7 +22,6 @@
             <div class="col-lg-10">
                 
                 <?php 
-                // Inicializamos as variáveis vazias para evitar erros no formulário caso o ID não seja encontrado
                 $ID_banco = ""; $nivel = ""; $turno = ""; $serie = ""; $cursoExtra = "";
 
                 if(empty($_POST["ID"])){
